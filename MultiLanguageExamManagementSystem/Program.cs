@@ -1,32 +1,36 @@
 using AutoMapper;
 using LifeEcommerce.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using MultiLanguageExamManagementSystem.Data;
 using MultiLanguageExamManagementSystem.Data.UnitOfWork;
 using MultiLanguageExamManagementSystem.Services.IServices;
 using MultiLanguageExamManagementSystem.Services;
 using Serilog;
-using Microsoft.AspNetCore.Hosting;
 using MultiLanguageExamManagementSystem.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var mapperConfiguration = new MapperConfiguration(
                         mc => mc.AddProfile(new AutoMapperConfigurations()));
+// builder.Services.AddLogging(); //added
 
 IMapper mapper = mapperConfiguration.CreateMapper();
 
 builder.Services.AddSingleton(mapper);
 
+
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddScoped<IExamService, ExamService>();
-builder.Services.AddScoped<ICultureService, CultureService>();
 
+// builder.Services.AddHttpClient();
+builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped<ICultureService, CultureService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<TranslationService>();
+
+builder.Services.AddSingleton(builder.Configuration);
 
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)

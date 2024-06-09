@@ -8,6 +8,6 @@ namespace MultiLanguageExamManagementSystem.Models.Entities
         // Caountry will have Id, Name and Code
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Language> Languages { get; set; }
+        public string Code { get; set; }
     }
 }
