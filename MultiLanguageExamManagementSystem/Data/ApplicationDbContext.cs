@@ -12,6 +12,12 @@ namespace MultiLanguageExamManagementSystem.Data
         public DbSet<Language> Languages { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<LocalizationResource> LocalizationResources { get; set; }
+        
+        public DbSet<User> Users { get; set; }
+        public DbSet<Exam> Exams { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<ExamQuestion> ExamQuestions { get; set; }
+        public DbSet<TakenExam> TakenExams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +40,33 @@ namespace MultiLanguageExamManagementSystem.Data
             modelBuilder.Entity<LocalizationResource>()
                 .HasIndex(lr => new { lr.LanguageId, lr.Namespace, lr.Key })
                 .IsUnique();
+            
+            
+            
+            //
+            modelBuilder.Entity<ExamQuestion>()
+                .HasKey(eq => new { eq.ExamId, eq.QuestionId });
+
+            modelBuilder.Entity<ExamQuestion>()
+                .HasOne(eq => eq.Exam)
+                .WithMany(e => e.ExamQuestions)
+                .HasForeignKey(eq => eq.ExamId);
+
+            modelBuilder.Entity<ExamQuestion>()
+                .HasOne(eq => eq.Question)
+                .WithMany(q => q.ExamQuestions)
+                .HasForeignKey(eq => eq.QuestionId);
+
+            modelBuilder.Entity<TakenExam>()
+                .HasOne(te => te.Exam)
+                .WithMany(e => e.TakenExams)
+                .HasForeignKey(te => te.ExamId);
+
+            modelBuilder.Entity<TakenExam>()
+                .HasOne(te => te.Student)
+                .WithMany(u => u.TakenExams)
+                .HasForeignKey(te => te.StudentId);
+
         }
     }
 }

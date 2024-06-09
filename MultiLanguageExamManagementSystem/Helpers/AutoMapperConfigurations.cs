@@ -20,6 +20,10 @@ namespace LifeEcommerce.Helpers
             CreateMap<LocalizationResource, LocalizationResourceRequestDto>().ReverseMap();
             CreateMap<LocalizationResourceRequestDto, LocalizationResource>().ReverseMap();
             
+            
+            CreateMap<User, UserRequestDto>().ReverseMap();
+            CreateMap<UserRequestDto, User>().ReverseMap();
+            
             CreateMap<LocalizationResource, LocalizationResource>();
             
         }
