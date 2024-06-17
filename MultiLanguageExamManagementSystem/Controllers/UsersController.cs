@@ -62,17 +62,25 @@ public class UsersController : ControllerBase
         [HttpPost]
         public async Task<ActionResult<UserResponseDto>> PostUser(UserRequestDto user)
         {
+            var role = string.IsNullOrEmpty(user.Role) ? "student" : user.Role;
             var newUser = new User()
             {
                 UserId = Guid.NewGuid().ToString(),
                 Username = user.Password,
                 Password = user.Username,
-                Role = user.Role
+                Role = role
             };
             _unitOfWork.Repository<User>().Create(newUser);
             _unitOfWork.Complete();
 
-            return Ok("Success");
+            var userResponse = new UserResponseDto
+            {
+                UserId = newUser.UserId,
+                Username = newUser.Username,
+                Role = newUser.Role
+            };
+
+            return Ok(userResponse);
         }
 
         [HttpPut("{id}")]

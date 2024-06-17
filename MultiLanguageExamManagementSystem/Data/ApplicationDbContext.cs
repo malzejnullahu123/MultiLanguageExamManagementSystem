@@ -18,6 +18,7 @@ namespace MultiLanguageExamManagementSystem.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<ExamQuestion> ExamQuestions { get; set; }
         public DbSet<TakenExam> TakenExams { get; set; }
+        public DbSet<ExamRequest> ExamRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,7 +67,6 @@ namespace MultiLanguageExamManagementSystem.Data
                 .HasOne(te => te.Student)
                 .WithMany(u => u.TakenExams)
                 .HasForeignKey(te => te.StudentId);
-
         }
     }
 }

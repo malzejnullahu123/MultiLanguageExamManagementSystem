@@ -11,4 +11,5 @@ public class TakenExam
 
     public DateTime TakenOn { get; set; }
     public bool IsCompleted { get; set; }
+    public double Score { get; set; }
 }

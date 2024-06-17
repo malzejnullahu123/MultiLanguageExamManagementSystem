@@ -8,4 +8,6 @@ public class Question
     public int DifficultyLevel { get; set; }
 
     public ICollection<ExamQuestion> ExamQuestions { get; set; }
+    public List<string> PossibleAnswers { get; set; }
+
 }
