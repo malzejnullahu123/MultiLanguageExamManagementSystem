@@ -52,6 +52,9 @@ namespace MultiLanguageExamManagementSystem.Controllers;
             };
 
             _unitOfWork.Repository<ExamRequest>().Create(examRequest);
+            _unitOfWork.Repository<ExamRequest>()
+                .GetByCondition(x => x.ExamId == requestDto.ExamId && x.UserId == requestDto.UserId)
+                .Select(x => x.ExamRequestId).FirstOrDefault();
             _unitOfWork.Complete();
 
             return Ok();
